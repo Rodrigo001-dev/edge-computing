@@ -1,0 +1,3 @@
+name = "edge-computing"
+main = "src/index.ts"
+compatibility_date = "2022-07-22"
