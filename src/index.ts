@@ -17,6 +17,10 @@ export default {
 			token: env.UPSTASH_REDIS_REST_TOKEN
 		});
 
-		return new Response("Hello World!");
+		const access_count = await redis.incr('access_count');
+
+		return new Response(JSON.stringify({
+			access_count
+		}));
 	},
 };
