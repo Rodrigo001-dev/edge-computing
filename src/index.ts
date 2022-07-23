@@ -1,43 +1,39 @@
+import { Router } from 'worktop';
+import { listen } from 'worktop/cache';
 import { Redis } from '@upstash/redis/cloudflare';
 
-export interface Env {
-	UPSTASH_REDIS_REST_URL: string;
-	UPSTASH_REDIS_REST_TOKEN: string;
+declare global {
+	var UPSTASH_REDIS_REST_URL: string;
+	var UPSTASH_REDIS_REST_TOKEN: string;
 }
 
-export default {
-	async fetch(
-		request: Request,
-		env: Env,
-		ctx: ExecutionContext
-	): Promise<Response> {
-		// fazendo a conexão com o banco
-		const redis = new Redis({
-			url: env.UPSTASH_REDIS_REST_URL,
-			token: env.UPSTASH_REDIS_REST_TOKEN
-		});
+const routes = new Router();
 
-		if (request.url.endsWith('/get')) {
-			// buscando(fazendo uma leitura) o número de acessos
-			const access_count = await redis.get('access_count');
+// fazendo a conexão com o banco
+const redis = new Redis({
+	url: UPSTASH_REDIS_REST_URL,
+	token: UPSTASH_REDIS_REST_TOKEN,
+});
 
-			return new Response (JSON.stringify({
-				access_count
-			}));
-		} else {
-			// o contador está fazendo uma operação par alterar os dados no banco
-			// e como eu estou fazendo uma operação de escrita(mudando uma informação)
-			// eu não estou utilizando o conceito de Edge no banco de dados porque sempre
-			// que é feito operações de escrita, os dados sempre vão ser alterados(escritos)
-			// em uma única região do mundo
-			// utilizando o conceito de edge-computing no upstash com redis é somente
-			// para leitura de dados que a latência é muito pequena pois eu vou lêr os
-			// dados da região mais próxima de mim.
-			const access_count = await redis.incr('access_count');
+// criando rotas
+// criando a rota para lêr a quantidade de acessos
+routes.add('GET', '/get', async (req, res) => {
+	const access_count = await redis.get('access_count');
 
-			return new Response(JSON.stringify({
-				access_count
-			}));
-		}
-	},
-};
+	// no res.send no pimeiro parâmetro é o código HTTP e no segundo é o body
+	return res.send(200, { access_count });
+});
+
+// rota para escrita de dados
+// essa rota vai adicionar no contador toda vez que tiver um acesso
+// essa rota não utiliza os recursos de Edge-Computing pois para escrever dados
+// só é posível em um lugar do mundo mas para leitura é em todos os lugares
+routes.add('POST', '/incr', async (req, res) => {
+	const access_count = await redis.incr('access_count');
+
+	return res.send(201, { access_count });
+});
+
+// o listen vai executar o método e na próxima que ele for executar a rota de novo,
+// ele vai ver se a rota já não foi salva em cache e vai devolver os dados em cache
+listen(routes.run);

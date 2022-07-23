@@ -12,6 +12,7 @@
     "deploy": "wrangler publish"
   },
   "dependencies": {
-    "@upstash/redis": "^1.10.1"
+    "@upstash/redis": "^1.10.1",
+    "worktop": "^0.7.3"
   }
 }
