@@ -1,3 +1,8 @@
 name = "edge-computing"
 main = "src/index.ts"
 compatibility_date = "2022-07-22"
+
+# vou adicionar variáveis de ambiente
+[vars]
+UPSTASH_REDIS_REST_URL = "https://global-daring-grouper-30859.upstash.io"
+UPSTASH_REDIS_REST_TOKEN = "AXiLACQgNGM5OGQyYTktNTE3My00ZWZiLTk4MGEtYzQ0NDFhMzQ0MWViMzQwZjJiOWNmNjZiNDQ4YmI5ODYzMmI0MmUyNzljYTA="

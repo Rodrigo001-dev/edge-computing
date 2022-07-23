@@ -70,8 +70,8 @@ Upstash: Upstash também é um banco de dados porém ele é focado em Redix e el
 ## 🚀 Tecnologias/Bibliotecas utilizadas
 
 <a href="https://www.typescriptlang.org/" target="_blank"> <img src="https://img.shields.io/badge/-TypeScript-3178C6?style=flat-square&logo=TypeScript&logoColor=white" alt="TypeScript"> </a>
-<a href="https://nodejs.org/en/" target="_blank"> <img src="https://img.shields.io/badge/-Node.js-32CD32?style=flat-square&logo=Node.js&logoColor=white" alt="Node.js"> </a>
 <a href="https://www.cloudflare.com/pt-br/" target="_blank"> <img src="https://img.shields.io/badge/-Cloudflare-CE3f00?style=flat-square&logo=cloudflare&logoColor=white" alt="Cloudflare"> </a>
+<a href="https://upstash.com/" target="_blank"> <img src="https://img.shields.io/badge/-Upstash-00E9A3?style=flat-square&logo=upstash&logoColor=white" alt="Upstash"> </a>
 
 ## 💻 Autor
 
